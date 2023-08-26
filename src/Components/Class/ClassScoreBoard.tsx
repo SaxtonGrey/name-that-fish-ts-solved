@@ -1,16 +1,21 @@
 import { Component } from "react";
 import "./styles/score-board.css";
 
-const incorrectCount = 0;
-const correctCount = 0;
-const answersLeft = ["trout", "salmon", "tuna", "shark"];
-export class ClassScoreBoard extends Component {
+type FunctionalScoreBoardProps = {
+  correctCount: number;
+  incorrectCount: number;
+  answersLeft: string[];
+};
+
+class ClassScoreBoard extends Component<FunctionalScoreBoardProps> {
   render() {
+    const { correctCount, incorrectCount, answersLeft } = this.props;
+
     return (
       <div id="score-board">
         <div>Incorrect 🔻: {incorrectCount}</div>
         <div id="choices-left">
-          {answersLeft.map((answer) => (
+          {answersLeft.map((answer: string) => (
             <div key={answer} className="choice">
               {answer}
             </div>
@@ -21,3 +26,5 @@ export class ClassScoreBoard extends Component {
     );
   }
 }
+
+export default ClassScoreBoard;
