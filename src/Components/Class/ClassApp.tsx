@@ -2,17 +2,10 @@ import { Component } from "react";
 import ClassGameBoard from "./ClassGameBoard";
 import ClassScoreBoard from "./ClassScoreBoard";
 import ClassFinalScore from "./ClassFinalScore";
+import { AppProps, AppState } from "../../types";
 
-type ClassAppProps = unknown;
-type ClassAppState = {
-  correct: number;
-  incorrect: number;
-  answersLeft: string[];
-  doneGuessing: boolean;
-};
-
-class ClassApp extends Component<ClassAppProps, ClassAppState> {
-  constructor(props: ClassAppProps) {
+class ClassApp extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
     super(props);
     this.state = {
       correct: 0,

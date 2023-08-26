@@ -1,15 +1,7 @@
 import { Component } from "react";
 import "./styles/game-board.css";
 import { Images } from "../../assets/Images";
-
-type Fish = {
-  url: string;
-  alt: string;
-};
-
-type FunctionalGameBoardProps = {
-  onGuess: (isCorrect: boolean) => void;
-};
+import { Fish, GameBoardProps } from "../../types";
 
 const initialFishes: Fish[] = [
   {
@@ -30,7 +22,7 @@ const initialFishes: Fish[] = [
   },
 ];
 
-class ClassGameBoard extends Component<FunctionalGameBoardProps> {
+class ClassGameBoard extends Component<GameBoardProps> {
   state = {
     userGuess: "",
     currentFishIndex: 0,

@@ -1,15 +1,7 @@
 import "./styles/game-board.css";
 import { Images } from "../../assets/Images";
 import { useState } from "react";
-
-type Fish = {
-  url: string;
-  alt: string;
-};
-
-type FunctionalGameBoardProps = {
-  onGuess: (isCorrect: boolean) => void;
-};
+import { Fish, GameBoardProps } from "../../types";
 
 const initialFishes: Fish[] = [
   {
@@ -30,7 +22,7 @@ const initialFishes: Fish[] = [
   },
 ];
 
-export function FunctionalGameBoard({ onGuess }: FunctionalGameBoardProps) {
+export function FunctionalGameBoard({ onGuess }: GameBoardProps) {
   const [userGuess, setUserGuess] = useState("");
   const [currentFishIndex, setCurrentFishIndex] = useState(0);
 

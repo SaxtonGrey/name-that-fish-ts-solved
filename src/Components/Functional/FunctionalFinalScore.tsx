@@ -1,14 +1,10 @@
 import "./styles/final-score.css";
-
-type FunctionalFinalScoreProps = {
-  correctCount: number;
-  totalCount: number;
-};
+import { FinalScoreProps } from "../../types";
 
 export const FunctionalFinalScore = ({
   correctCount,
   totalCount,
-}: FunctionalFinalScoreProps) => (
+}: FinalScoreProps) => (
   <div id="final-score">
     <h1>Your Final Score Was</h1>
     <div id="score">
