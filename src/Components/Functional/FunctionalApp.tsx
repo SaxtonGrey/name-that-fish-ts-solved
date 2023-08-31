@@ -1,30 +1,47 @@
 import { FunctionalGameBoard } from "./FunctionalGameBoard";
 import { FunctionalScoreBoard } from "./FunctionalScoreBoard";
 import { FunctionalFinalScore } from "./FunctionalFinalScore";
+import { Images } from "../../assets/Images";
 import { useState } from "react";
+
+export type Fish = {
+  image: string;
+  name: string;
+};
 
 export function FunctionalApp() {
   const [correct, setCorrect] = useState(0);
   const [incorrect, setIncorrect] = useState(0);
 
-  const [answersLeft, setAnswersLeft] = useState([
-    "trout",
-    "salmon",
-    "tuna",
-    "shark",
-  ]);
-  const [doneGuessing, setDoneGuessing] = useState(false);
+  const initialFishes: Fish[] = [
+    {
+      image: Images.trout,
+      name: "trout",
+    },
+    {
+      image: Images.salmon,
+      name: "salmon",
+    },
+    {
+      image: Images.tuna,
+      name: "tuna",
+    },
+    {
+      image: Images.shark,
+      name: "shark",
+    },
+  ];
+
+  const currentFish = initialFishes[correct + incorrect];
+  const totalCount = correct + incorrect;
+  const fishesLeft = initialFishes.slice(totalCount);
+  const answersLeft = fishesLeft.map((fish) => fish.name);
 
   const handleGuess = (isCorrect: boolean | null) => {
     if (isCorrect) {
       setCorrect((correct) => correct + 1);
     } else {
       setIncorrect((incorrect) => incorrect + 1);
-    }
-    const updatedAnswersLeft = answersLeft.slice(1);
-    setAnswersLeft(updatedAnswersLeft);
-    if (updatedAnswersLeft.length === 0) {
-      setDoneGuessing(true);
     }
   };
 
@@ -35,8 +52,10 @@ export function FunctionalApp() {
         incorrectCount={incorrect}
         answersLeft={answersLeft}
       />
-      {!doneGuessing && <FunctionalGameBoard onGuess={handleGuess} />}
-      {doneGuessing && (
+      {correct + incorrect != 4 && (
+        <FunctionalGameBoard onGuess={handleGuess} currentFish={currentFish} />
+      )}
+      {correct + incorrect === 4 && (
         <FunctionalFinalScore
           correctCount={correct}
           totalCount={correct + incorrect}

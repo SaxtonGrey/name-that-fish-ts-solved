@@ -1,60 +1,34 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import "./styles/game-board.css";
-import { Images } from "../../assets/Images";
-import { Fish, GameBoardProps } from "../../types";
+import { Fish } from "./ClassApp"; // Update import paths accordingly
 
-const initialFishes: Fish[] = [
-  {
-    url: Images.trout,
-    alt: "trout",
-  },
-  {
-    url: Images.salmon,
-    alt: "salmon",
-  },
-  {
-    url: Images.tuna,
-    alt: "tuna",
-  },
-  {
-    url: Images.shark,
-    alt: "shark",
-  },
-];
+type GameBoardProps = {
+  onGuess: (isCorrect: boolean) => void;
+  currentFish: Fish;
+};
 
-class ClassGameBoard extends Component<GameBoardProps> {
+export class ClassGameBoard extends Component<GameBoardProps> {
   state = {
     userGuess: "",
-    currentFishIndex: 0,
   };
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { userGuess, currentFishIndex } = this.state;
-    const { onGuess } = this.props;
-    const { alt } = initialFishes[currentFishIndex];
-    const isCorrect = userGuess.toLowerCase() === alt.toLowerCase();
-    onGuess(isCorrect);
-    this.setState({
-      userGuess: "",
-      currentFishIndex: currentFishIndex + 1,
-    });
-  };
-
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      userGuess: e.target.value,
-    });
+    const isCorrect =
+      this.state.userGuess.toLowerCase() ===
+      this.props.currentFish.name.toLowerCase();
+    this.props.onGuess(isCorrect);
+    this.setState({ userGuess: "" });
   };
 
   render() {
-    const { userGuess, currentFishIndex } = this.state;
-    const { url, alt } = initialFishes[currentFishIndex];
+    const { image, name } = this.props.currentFish;
+    const { userGuess } = this.state;
 
     return (
       <div id="game-board">
         <div id="fish-container">
-          <img src={url} alt={alt} />
+          <img src={image} alt={name} />
         </div>
         <form id="fish-guess-form" onSubmit={this.handleSubmit}>
           <label htmlFor="fish-guess">What kind of fish is this?</label>
@@ -62,7 +36,9 @@ class ClassGameBoard extends Component<GameBoardProps> {
             type="text"
             id="fish-guess"
             value={userGuess}
-            onChange={this.handleChange}
+            onChange={(e) => {
+              this.setState({ userGuess: e.target.value });
+            }}
           />
           <input type="submit" />
         </form>
@@ -70,5 +46,3 @@ class ClassGameBoard extends Component<GameBoardProps> {
     );
   }
 }
-
-export default ClassGameBoard;

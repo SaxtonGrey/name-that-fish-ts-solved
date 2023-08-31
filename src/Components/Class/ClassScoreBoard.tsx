@@ -1,8 +1,13 @@
 import { Component } from "react";
 import "./styles/score-board.css";
-import { ScoreBoardProps } from "../../types";
 
-class ClassScoreBoard extends Component<ScoreBoardProps> {
+type ScoreBoardProps = {
+  correctCount: number;
+  incorrectCount: number;
+  answersLeft: string[];
+};
+
+export class ClassScoreBoard extends Component<ScoreBoardProps> {
   render() {
     const { correctCount, incorrectCount, answersLeft } = this.props;
 
@@ -21,5 +26,3 @@ class ClassScoreBoard extends Component<ScoreBoardProps> {
     );
   }
 }
-
-export default ClassScoreBoard;

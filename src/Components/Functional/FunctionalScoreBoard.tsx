@@ -1,6 +1,10 @@
 import "./styles/score-board.css";
 //  Where the score is presented
-import { ScoreBoardProps } from "../../types";
+type ScoreBoardProps = {
+  correctCount: number;
+  incorrectCount: number;
+  answersLeft: string[];
+};
 
 export function FunctionalScoreBoard({
   correctCount,

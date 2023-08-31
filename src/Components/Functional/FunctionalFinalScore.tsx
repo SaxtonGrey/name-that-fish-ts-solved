@@ -1,5 +1,9 @@
 import "./styles/final-score.css";
-import { FinalScoreProps } from "../../types";
+
+type FinalScoreProps = {
+  correctCount: number;
+  totalCount: number;
+};
 
 export const FunctionalFinalScore = ({
   correctCount,

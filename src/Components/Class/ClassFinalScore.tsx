@@ -1,5 +1,10 @@
 import { Component } from "react";
-import { FinalScoreProps } from "../../types";
+
+type FinalScoreProps = {
+  correctCount: number;
+  totalCount: number;
+};
+
 class ClassFinalScore extends Component<FinalScoreProps> {
   render() {
     const { correctCount, totalCount } = this.props;

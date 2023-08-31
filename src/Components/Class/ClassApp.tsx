@@ -1,63 +1,80 @@
 import { Component } from "react";
-import ClassGameBoard from "./ClassGameBoard";
-import ClassScoreBoard from "./ClassScoreBoard";
-import ClassFinalScore from "./ClassFinalScore";
-import { AppProps, AppState } from "../../types";
+import { ClassGameBoard } from "./ClassGameBoard"; // Update import paths accordingly
+import { ClassScoreBoard } from "./ClassScoreBoard"; // Update import paths accordingly
+import ClassFinalScore from "./ClassFinalScore"; // Update import paths accordingly
+import { Images } from "../../assets/Images"; // Update import paths accordingly
 
-class ClassApp extends Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      correct: 0,
-      incorrect: 0,
-      answersLeft: ["trout", "salmon", "tuna", "shark"],
-      doneGuessing: false,
-    };
-  }
+export type Fish = {
+  image: string;
+  name: string;
+};
+
+type AppProps = unknown;
+
+export class ClassApp extends Component<AppProps> {
+  state = {
+    correct: 0,
+    incorrect: 0,
+  };
+
+  initialFishes = [
+    {
+      image: Images.trout,
+      name: "trout",
+    },
+    {
+      image: Images.salmon,
+      name: "salmon",
+    },
+    {
+      image: Images.tuna,
+      name: "tuna",
+    },
+    {
+      image: Images.shark,
+      name: "shark",
+    },
+  ];
 
   handleGuess = (isCorrect: boolean | null) => {
     if (isCorrect) {
-      this.setState((prevState) => ({
-        correct: prevState.correct + 1,
+      this.setState(() => ({
+        correct: this.state.correct + 1,
       }));
     } else {
-      this.setState((prevState) => ({
-        incorrect: prevState.incorrect + 1,
+      this.setState(() => ({
+        incorrect: this.state.incorrect + 1,
       }));
-    }
-
-    const updatedAnswersLeft = this.state.answersLeft.slice(1);
-    this.setState({
-      answersLeft: updatedAnswersLeft,
-    });
-
-    if (updatedAnswersLeft.length === 0) {
-      this.setState({
-        doneGuessing: true,
-      });
     }
   };
 
   render() {
-    const { correct, incorrect, answersLeft, doneGuessing } = this.state;
+    const { correct, incorrect } = this.state;
+    const currentFish = this.initialFishes[correct + incorrect];
+    const totalCount = correct + incorrect;
+    const fishesLeft = this.initialFishes.slice(totalCount);
+    const answersLeft = fishesLeft.map((fish) => fish.name);
 
     return (
-      <div>
+      <>
         <ClassScoreBoard
           correctCount={correct}
           incorrectCount={incorrect}
           answersLeft={answersLeft}
         />
-        {!doneGuessing && <ClassGameBoard onGuess={this.handleGuess} />}
-        {doneGuessing && (
+        {correct + incorrect !== 4 && (
+          <ClassGameBoard
+            onGuess={this.handleGuess}
+            currentFish={currentFish}
+          />
+        )}
+        {correct + incorrect === 4 && (
           <ClassFinalScore
             correctCount={correct}
             totalCount={correct + incorrect}
           />
         )}
-      </div>
+      </>
     );
   }
 }
-
-export default ClassApp;
