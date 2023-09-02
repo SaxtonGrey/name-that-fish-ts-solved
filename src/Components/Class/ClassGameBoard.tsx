@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./styles/game-board.css";
-import { Fish } from "./ClassApp"; // Update import paths accordingly
+import { Fish } from "../../types";
 
 type GameBoardProps = {
-  onGuess: (isCorrect: boolean) => void;
+  onGuess: (name: string) => void;
   currentFish: Fish;
 };
 
@@ -14,10 +14,7 @@ export class ClassGameBoard extends Component<GameBoardProps> {
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isCorrect =
-      this.state.userGuess.toLowerCase() ===
-      this.props.currentFish.name.toLowerCase();
-    this.props.onGuess(isCorrect);
+    this.props.onGuess(this.state.userGuess);
     this.setState({ userGuess: "" });
   };
 

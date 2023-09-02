@@ -4,12 +4,26 @@ import { ClassScoreBoard } from "./ClassScoreBoard"; // Update import paths acco
 import ClassFinalScore from "./ClassFinalScore"; // Update import paths accordingly
 import { Images } from "../../assets/Images"; // Update import paths accordingly
 
-export type Fish = {
-  image: string;
-  name: string;
-};
-
 type AppProps = unknown;
+
+const initialFishes = [
+  {
+    image: Images.trout,
+    name: "trout",
+  },
+  {
+    image: Images.salmon,
+    name: "salmon",
+  },
+  {
+    image: Images.tuna,
+    name: "tuna",
+  },
+  {
+    image: Images.shark,
+    name: "shark",
+  },
+];
 
 export class ClassApp extends Component<AppProps> {
   state = {
@@ -17,43 +31,25 @@ export class ClassApp extends Component<AppProps> {
     incorrect: 0,
   };
 
-  initialFishes = [
-    {
-      image: Images.trout,
-      name: "trout",
-    },
-    {
-      image: Images.salmon,
-      name: "salmon",
-    },
-    {
-      image: Images.tuna,
-      name: "tuna",
-    },
-    {
-      image: Images.shark,
-      name: "shark",
-    },
-  ];
-
-  handleGuess = (isCorrect: boolean | null) => {
-    if (isCorrect) {
-      this.setState(() => ({
-        correct: this.state.correct + 1,
-      }));
-    } else {
-      this.setState(() => ({
-        incorrect: this.state.incorrect + 1,
-      }));
-    }
-  };
-
   render() {
     const { correct, incorrect } = this.state;
-    const currentFish = this.initialFishes[correct + incorrect];
+    const currentFish = initialFishes[correct + incorrect];
     const totalCount = correct + incorrect;
-    const fishesLeft = this.initialFishes.slice(totalCount);
-    const answersLeft = fishesLeft.map((fish) => fish.name);
+    const answersLeft = initialFishes
+      .slice(totalCount)
+      .map((fish) => fish.name);
+
+    const handleGuess = (answer: string) => {
+      if (currentFish.name.toLowerCase() === answer.toLowerCase()) {
+        this.setState(() => ({
+          correct: correct + 1,
+        }));
+      } else {
+        this.setState(() => ({
+          incorrect: incorrect + 1,
+        }));
+      }
+    };
 
     return (
       <>
@@ -63,10 +59,7 @@ export class ClassApp extends Component<AppProps> {
           answersLeft={answersLeft}
         />
         {correct + incorrect !== 4 && (
-          <ClassGameBoard
-            onGuess={this.handleGuess}
-            currentFish={currentFish}
-          />
+          <ClassGameBoard onGuess={handleGuess} currentFish={currentFish} />
         )}
         {correct + incorrect === 4 && (
           <ClassFinalScore

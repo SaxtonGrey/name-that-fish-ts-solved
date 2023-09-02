@@ -1,9 +1,9 @@
 import "./styles/game-board.css";
 import { useState } from "react";
-import { Fish } from "./FunctionalApp";
+import { Fish } from "../../types";
 
 type GameBoardProps = {
-  onGuess: (isCorrect: boolean) => void;
+  onGuess: (name: string) => void;
   currentFish: Fish;
 };
 
@@ -13,8 +13,7 @@ export function FunctionalGameBoard({ onGuess, currentFish }: GameBoardProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isCorrect = userGuess.toLowerCase() === name.toLowerCase();
-    onGuess(isCorrect);
+    onGuess(userGuess);
     setUserGuess("");
   };
 
